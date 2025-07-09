@@ -31,6 +31,8 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel>
         p.addLast(new HttpObjectAggregator(1024 * 1024 * 100));
         // 支持大文件传输
         p.addLast(new ChunkedWriteHandler());
+        // 心跳
+        p.addLast(new IdleStateHandler(60, 0, 0, TimeUnit.SECONDS));
         // HTTP请求路由器
         p.addLast(new HttpRouterHandler(business_executor_));
         // WebSocket协议处理器
