@@ -43,10 +43,18 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame)
     {
-        if (frame instanceof TextWebSocketFrame)
-        {
-            business_executor_.submit(() -> dispatch(ctx, ((TextWebSocketFrame) frame).text()));
-        }
+        frame.retain();
+
+        business_executor_.submit(() -> {
+            try
+            {
+                dispatch(ctx, ((TextWebSocketFrame) frame).text());
+            }
+            finally
+            {
+                frame.release();
+            }
+        });
     }
 
     private void dispatch(ChannelHandlerContext ctx, String json_request)
