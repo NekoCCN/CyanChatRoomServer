@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.FileMapper">
+    <resultMap id="FileMetadataResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.file.FileMetadata">
+        <id property="id_" column="id" javaType="java.util.UUID" typeHandler="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.typehandler.UUIDTypeHandler"/>
+        <result property="original_name_" column="original_name"/>
+        <result property="storage_path_" column="storage_path"/>
+        <result property="file_size_" column="file_size"/>
+        <result property="mime_type_" column="mime_type"/>
+        <result property="uploader_id_" column="uploader_id" javaType="java.util.UUID"/>
+        <result property="status_" column="status"
+                javaType="cc.nekocc.cyanchatroomserver.domain.model.file.FileStatus"
+                typeHandler="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.typehandler.FileStatusTypeHandler"/>
+        <result property="created_at_" column="created_at"/>
+        <result property="expires_at_" column="expires_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.file.FileMetadata">
+        INSERT INTO files (id, original_name, storage_path, file_size, mime_type, uploader_id, status, created_at, expires_at)
+        VALUES (#{id_}, #{original_name_}, #{storage_path_}, #{file_size_}, #{mime_type_}, #{uploader_id_}, #{status_}::varchar, #{created_at_}, #{expires_at_})
+    </insert>
+
+    <select id="findById" resultMap="FileMetadataResultMap">
+        SELECT * FROM files WHERE id = #{id}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE files SET status = #{status}::varchar WHERE id = #{id}::uuid
+    </update>
+
+    <select id="findExpiredFiles" resultMap="FileMetadataResultMap">
+        SELECT id, storage_path FROM files WHERE expires_at &lt; #{now}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM files WHERE id = #{id}::uuid
+    </delete>
+
+    <select id="findByCriteria" resultMap="FileMetadataResultMap">
+        SELECT * FROM files
+        <where>
+            <if test="criteria.uploader_id_ != null">
+                AND uploader_id = #{criteria.uploader_id_}
+            </if>
+            <if test="criteria.mime_type_is_ != null">
+                AND mime_type = #{criteria.mime_type_is_}
+            </if>
+            <if test="criteria.original_name_like_ != null">
+                AND original_name LIKE CONCAT('%', #{criteria.original_name_like_}, '%')
+            </if>
+            <if test="criteria.created_after_ != null">
+                AND created_at &gt;= #{criteria.created_after_}
+            </if>
+            <if test="criteria.created_before_ != null">
+                AND created_at &lt;= #{criteria.created_before_}
+            </if>
+        </where>
+        ORDER BY created_at DESC
+    </select>
+</mapper>
