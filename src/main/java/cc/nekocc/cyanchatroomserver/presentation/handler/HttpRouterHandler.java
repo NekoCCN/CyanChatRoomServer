@@ -18,11 +18,17 @@ public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpReque
 {
     private final ExecutorService business_executor_;
     private final FileApplicationService file_app_service_ = new FileApplicationServiceImpl();
-    private final FileSystemStorageService storage_service_ = new FileSystemStorageService();
+    private final FileSystemStorageService storage_service_;
     private static final HttpDataFactory factory_ = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
 
-    public HttpRouterHandler(ExecutorService businessExecutor)
+    public HttpRouterHandler(ExecutorService businessExecutor, String fileStoragePath)
     {
+        if (fileStoragePath == null || fileStoragePath.isEmpty())
+        {
+            throw new IllegalArgumentException("File storage path cannot be null or empty.");
+        }
+        this.storage_service_ = new FileSystemStorageService(fileStoragePath);
+
         this.business_executor_ = businessExecutor;
     }
 

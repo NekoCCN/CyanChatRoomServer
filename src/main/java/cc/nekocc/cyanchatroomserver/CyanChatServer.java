@@ -77,9 +77,10 @@ public class CyanChatServer
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChatServerInitializer(business_executor, config.heartbeat_interval_seconds()));
+                    .childHandler(new ChatServerInitializer(business_executor,
+                            config.heartbeat_interval_seconds(), config.file_storage_path()));
 
-            ChannelFuture f = null;
+            ChannelFuture f;
 
             try
             {

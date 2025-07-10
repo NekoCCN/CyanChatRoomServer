@@ -17,7 +17,7 @@ public class FileApplicationServiceImpl implements FileApplicationService
     {
         if (expires_in_hours < 1 || expires_in_hours > 48)
         {
-            throw new IllegalArgumentException("文件有效期必须在1到48小时之间。");
+            throw new IllegalArgumentException("File expiration time must be between 1 and 48 hours.");
         }
         FileMetadata metadata = new FileMetadata(file_name, file_size, null, uploader_id, expires_in_hours);
         file_repository_.save(metadata);

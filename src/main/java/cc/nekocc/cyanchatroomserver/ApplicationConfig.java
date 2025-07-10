@@ -7,6 +7,7 @@ public record ApplicationConfig(
         String database_username,
         String database_password,
         int heartbeat_interval_seconds,
+        String file_storage_path,
         long file_cleanup_interval_minutes
 )
 {  }

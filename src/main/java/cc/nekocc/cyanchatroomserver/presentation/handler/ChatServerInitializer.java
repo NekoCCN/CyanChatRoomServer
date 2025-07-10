@@ -16,11 +16,13 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel>
 {
     private final ExecutorService business_executor_;
     private final int heartbeat_interval_seconds_;
+    private final String file_storage_path_;
 
-    public ChatServerInitializer(ExecutorService businessExecutor, int heartbeat_interval_seconds)
+    public ChatServerInitializer(ExecutorService businessExecutor, int heartbeat_interval_seconds, String file_storage_path)
     {
         business_executor_ = businessExecutor;
         heartbeat_interval_seconds_ = heartbeat_interval_seconds;
+        file_storage_path_ = file_storage_path;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel>
         // Heartbeat
         p.addLast(new IdleStateHandler(heartbeat_interval_seconds_, 0, 0, TimeUnit.SECONDS));
         // HTTP Router Handler
-        p.addLast(new HttpRouterHandler(business_executor_));
+        p.addLast(new HttpRouterHandler(business_executor_, file_storage_path_));
         // WebSocket Protocol Handler
         p.addLast(new WebSocketServerProtocolHandler("/ws"));
         // WebSocket Business Handler

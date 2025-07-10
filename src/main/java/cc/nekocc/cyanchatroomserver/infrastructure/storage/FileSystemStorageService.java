@@ -12,17 +12,23 @@ import java.nio.file.StandardCopyOption;
  */
 public class FileSystemStorageService
 {
-    // TODO: 不修改就爆炸咯
-    private final Path root_location = Paths.get("E:\\cyanchatroom\\files");
+    private final Path root_location;
 
-    public FileSystemStorageService()
+    public FileSystemStorageService(String storage_path)
     {
+        if (storage_path == null || storage_path.isEmpty())
+        {
+            throw new IllegalArgumentException("存储路径不能为空。");
+        }
+
+        this.root_location = Paths.get(storage_path).toAbsolutePath().normalize();
+
         try
         {
             Files.createDirectories(root_location);
         } catch (IOException e)
         {
-            throw new RuntimeException("无法初始化文件存储位置", e);
+            throw new RuntimeException("Could not initialize storage directory: " + root_location, e);
         }
     }
 
