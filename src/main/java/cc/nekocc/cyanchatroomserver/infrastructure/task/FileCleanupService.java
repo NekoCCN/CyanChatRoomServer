@@ -20,15 +20,12 @@ public class FileCleanupService
 
     private final ScheduledExecutorService scheduler_ = Executors.newSingleThreadScheduledExecutor();
     private final FileRepository file_repository_ = new FileRepositoryImpl();
-    private final FileSystemStorageService storage_service_ = new FileSystemStorageService();
+    private final FileSystemStorageService storage_service_;
 
-    public FileCleanupService(long cleanup_interval_minutes)
+    public FileCleanupService(long cleanup_interval_minutes, String storage_path)
     {
+        storage_service_ = new FileSystemStorageService(storage_path);
         cleanup_interval_minutes_ = cleanup_interval_minutes;
-    }
-    public FileCleanupService()
-    {
-        this(60);
     }
 
     public void start()

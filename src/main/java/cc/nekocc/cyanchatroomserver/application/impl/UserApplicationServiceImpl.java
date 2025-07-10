@@ -9,6 +9,7 @@ import cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.repositor
 import cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.repository.UserRepositoryImpl;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,31 +20,41 @@ public class UserApplicationServiceImpl implements UserApplicationService
     private final OfflineMessageRepository offline_message_repository_ = new OfflineMessageRepositoryImpl();
 
     @Override
-    public Optional<User> login(String username, String password)
+    public User register(String user_name, String password, String nick_name) throws Exception
     {
-        return user_repository_.findByUsername(username)
+        if (user_repository_.findByUsername(user_name).isPresent())
+        {
+            throw new Exception("用户名 '" + user_name + "' 已被注册。");
+        }
+
+        String password_hash = BCrypt.hashpw(password, BCrypt.gensalt());
+        User new_user = new User(user_name, password_hash, nick_name);
+
+        user_repository_.save(new_user);
+
+        return new_user;
+    }
+
+    @Override
+    public Optional<User> login(String user_name, String password)
+    {
+        return user_repository_.findByUsername(user_name)
                 .filter(user -> user.checkPassword(password));
     }
 
     @Override
     public void processPostLoginTasks(User user, Channel channel)
     {
-        // 查找该用户的所有离线消息
-        List<OfflineMessage> messages = offline_message_repository_.findMessagesForUser(user.getId(), null); // 登录时暂不处理群离线消息
+        List<OfflineMessage> messages = offline_message_repository_.findMessagesForUser(user.getId(), null);
         if (messages.isEmpty())
         {
             return;
         }
-
         System.out.println("正在为用户 " + user.getId() + " 投递 " + messages.size() + " 条离线消息...");
-
-        // 逐条投递离线消息
         for (OfflineMessage msg : messages)
         {
             channel.writeAndFlush(new TextWebSocketFrame(msg.getMessagePayload()));
         }
-
-        // 投递完成后, 从数据库中原子性地删除这些消息
         List<Long> messageIds = messages.stream().map(OfflineMessage::getId).collect(Collectors.toList());
         offline_message_repository_.deleteByIds(messageIds);
         System.out.println("用户 " + user.getId() + " 的离线消息已清理完毕");

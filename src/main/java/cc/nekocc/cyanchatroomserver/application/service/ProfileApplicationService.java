@@ -6,8 +6,7 @@ import java.util.UUID;
 
 public interface ProfileApplicationService
 {
-    /**
-     * 更新用户个人资料
-     */
-    Optional<User> updateProfile(UUID user_id, String nickname, String signature, String avatar_file_id);
+    Optional<User> updateProfile(UUID user_id, String nick_name, String signature, String avatar_file_id);
+    void changeUsername(UUID user_id, String current_password, String new_user_name) throws Exception;
+    void changePassword(UUID user_id, String current_password, String new_password) throws Exception;
 }

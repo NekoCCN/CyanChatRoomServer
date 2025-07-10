@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.user.User">
+        <id property="id_" column="id" javaType="java.util.UUID"/>
+        <result property="username_" column="username"/>
+        <result property="password_hash_" column="password_hash"/>
+        <result property="status_" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="nickname_" column="nickname"/>
+        <result property="avatar_url_" column="avatar_url"/>
+        <result property="signature_" column="signature"/>
+        <result property="public_key_bundle_" column="public_key_bundle"/>
+        <result property="created_at_" column="created_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.user.User">
+        INSERT INTO users (id, username, password_hash, status, nickname, avatar_url, signature, public_key_bundle, created_at)
+        VALUES (#{id_}, #{username_}, #{password_hash_}, #{status_}::varchar, #{nickname_}, #{avatar_url_}, #{signature_}, #{public_key_bundle_}, #{created_at_})
+    </insert>
+
+    <select id="findByUsername" resultMap="UserResultMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <select id="findById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <update id="updateProfile" parameterType="cc.nekocc.cyanchatroomserver.domain.model.user.User">
+        UPDATE users
+        <set>
+            <if test="nickname_ != null">nickname = #{nickname_},</if>
+            <if test="signature_ != null">signature = #{signature_},</if>
+            <if test="avatar_url_ != null">avatar_url = #{avatar_url_},</if>
+            <if test="username_ != null">username = #{username_},</if>
+            <if test="password_hash_ != null">password_hash = #{password_hash_},</if>
+            <if test="status_ != null">status = #{status_}::varchar,</if>
+        </set>
+        WHERE id = #{id_}
+    </update>
+
+    <update id="updateStatus" parameterType="cc.nekocc.cyanchatroomserver.domain.model.user.User">
+        UPDATE users SET status = #{status_}::varchar WHERE id = #{id_}
+    </update>
+
+    <update id="updatePublicKeyBundle" parameterType="cc.nekocc.cyanchatroomserver.domain.model.user.User">
+        UPDATE users SET public_key_bundle = #{public_key_bundle_} WHERE id = #{id_}
+    </update>
+</mapper>

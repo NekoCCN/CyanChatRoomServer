@@ -63,7 +63,8 @@ public class CyanChatServer
         );
         MyBatisUtil.init();
 
-        FileCleanupService cleanupService = new FileCleanupService(config.file_cleanup_interval_minutes());
+        FileCleanupService cleanupService = new FileCleanupService(config.file_cleanup_interval_minutes(),
+                config.file_storage_path());
         cleanupService.start();
 
         @SuppressWarnings("deprecation")
