@@ -38,6 +38,10 @@ public class HikariDataSourceFactory extends UnpooledDataSourceFactory
             throw new RuntimeException("Failed to load HikariCP properties file.", e);
         }
 
+        hikari_properties.setProperty("jdbcUrl", database_url_);
+        hikari_properties.setProperty("username", database_username_);
+        hikari_properties.setProperty("password", database_password_);
+
         HikariConfig config = new HikariConfig(hikari_properties);
         this.dataSource = new HikariDataSource(config);
     }

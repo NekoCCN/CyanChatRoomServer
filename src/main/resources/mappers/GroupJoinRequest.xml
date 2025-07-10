@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.GroupJoinRequestMapper">
+    <resultMap id="GroupJoinRequestResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinRequest">
+        <id property="id_" column="id"/>
+        <result property="group_id_" column="group_id" javaType="java.util.UUID"/>
+        <result property="user_id_" column="user_id" javaType="java.util.UUID"/>
+        <result property="status_" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="request_message_" column="request_message"/>
+        <result property="requested_at_" column="requested_at"/>
+        <result property="handled_at_" column="handled_at"/>
+        <result property="handler_id_" column="handler_id" javaType="java.util.UUID"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinRequest">
+        INSERT INTO group_join_requests (group_id, user_id, status, request_message, requested_at)
+        VALUES (#{group_id_}, #{user_id_}, #{status_}::varchar, #{request_message_}, #{requested_at_})
+    </insert>
+
+    <update id="update" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinRequest">
+        UPDATE group_join_requests
+        SET status = #{status_}::varchar,
+        handled_at = #{handled_at_},
+        handler_id = #{handler_id_}
+        WHERE id = #{id_}
+    </update>
+
+    <select id="findPendingRequest" resultMap="GroupJoinRequestResultMap">
+        SELECT * FROM group_join_requests
+        WHERE group_id = #{group_id} AND user_id = #{user_id} AND status = 'PENDING'
+    </select>
+</mapper>

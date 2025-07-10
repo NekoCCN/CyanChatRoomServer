@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.GroupMemberMapper">
+    <resultMap id="GroupMemberResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.group.GroupMember">
+        <id property="id_" column="id"/>
+        <result property="group_id_" column="group_id" javaType="java.util.UUID"/>
+        <result property="user_id_" column="user_id" javaType="java.util.UUID"/>
+        <result property="role_" column="role" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="joined_at_" column="joined_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupMember">
+        INSERT INTO group_members (group_id, user_id, role, joined_at)
+        VALUES (#{group_id_}, #{user_id_}, #{role_}::varchar, #{joined_at_})
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO group_members (group_id, user_id, role, joined_at) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.group_id_}, #{item.user_id_}, #{item.role_}::varchar, #{item.joined_at_})
+        </foreach>
+    </insert>
+
+    <select id="findByGroupAndUser" resultMap="GroupMemberResultMap">
+        SELECT * FROM group_members WHERE group_id = #{group_id} AND user_id = #{user_id}
+    </select>
+
+    <select id="findUserIdsByGroupId" resultType="java.util.UUID">
+        SELECT user_id FROM group_members WHERE group_id = #{group_id}
+    </select>
+
+    <update id="update" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupMember">
+        UPDATE group_members
+        <set>
+            <if test="role_ != null">role = #{role_}::varchar,</if>
+        </set>
+        WHERE group_id = #{group_id_} AND user_id = #{user_id_}
+    </update>
+
+    <select id="findGroupIdsByUserId" resultType="java.util.UUID">
+        SELECT group_id FROM group_members WHERE user_id = #{user_id}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM group_members WHERE group_id = #{group_id} AND user_id = #{user_id}
+    </delete>
+</mapper>

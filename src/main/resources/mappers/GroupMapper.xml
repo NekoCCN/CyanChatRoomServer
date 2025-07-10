@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.GroupMapper">
+    <resultMap id="GroupResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.group.Group">
+        <id property="id_" column="id" javaType="java.util.UUID"/>
+        <result property="name_" column="name"/>
+        <result property="creator_id_" column="creator_id" javaType="java.util.UUID"/>
+        <result property="join_mode_" column="join_mode" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="created_at_" column="created_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.Group">
+        INSERT INTO groups (id, name, creator_id, join_mode, created_at)
+        VALUES (#{id_}, #{name_}, #{creator_id_}, #{join_mode_}::varchar, #{created_at_})
+    </insert>
+
+    <select id="findById" resultMap="GroupResultMap">
+        SELECT * FROM groups WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="cc.nekocc.cyanchatroomserver.domain.model.group.Group">
+        UPDATE groups
+        <set>
+            <if test="name_ != null">name = #{name_},</if>
+            <if test="join_mode_ != null">join_mode = #{join_mode_}::varchar,</if>
+        </set>
+        WHERE id = #{id_}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM groups WHERE id = #{id}
+    </delete>
+</mapper>
