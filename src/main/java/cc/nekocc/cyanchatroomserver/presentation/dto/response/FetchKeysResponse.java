@@ -1,4 +1,6 @@
 package cc.nekocc.cyanchatroomserver.presentation.dto.response;
 
-public record FetchKeysResponse(Integer user_id, String public_key_bundle)
+import java.util.UUID;
+
+public record FetchKeysResponse(boolean succeed, UUID user_id, String public_key_bundle)
 {  }

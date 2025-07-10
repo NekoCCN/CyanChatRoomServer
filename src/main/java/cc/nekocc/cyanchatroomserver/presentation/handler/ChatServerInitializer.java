@@ -15,29 +15,31 @@ import java.util.concurrent.TimeUnit;
 public class ChatServerInitializer extends ChannelInitializer<SocketChannel>
 {
     private final ExecutorService business_executor_;
+    private final int heartbeat_interval_seconds_;
 
-    public ChatServerInitializer(ExecutorService businessExecutor)
+    public ChatServerInitializer(ExecutorService businessExecutor, int heartbeat_interval_seconds)
     {
         business_executor_ = businessExecutor;
+        heartbeat_interval_seconds_ = heartbeat_interval_seconds;
     }
 
     @Override
     protected void initChannel(SocketChannel ch)
     {
         ChannelPipeline p = ch.pipeline();
-        // HTTP编解码器
+        // HTTP Codec
         p.addLast(new HttpServerCodec());
-        // 聚合HTTP消息为单一的FullHttpRequest或FullHttpResponse
+        // HTTP Aggregator
         p.addLast(new HttpObjectAggregator(1024 * 1024 * 100));
-        // 支持大文件传输
+        // Support for large data streams
         p.addLast(new ChunkedWriteHandler());
-        // 心跳
-        p.addLast(new IdleStateHandler(60, 0, 0, TimeUnit.SECONDS));
-        // HTTP请求路由器
+        // Heartbeat
+        p.addLast(new IdleStateHandler(heartbeat_interval_seconds_, 0, 0, TimeUnit.SECONDS));
+        // HTTP Router Handler
         p.addLast(new HttpRouterHandler(business_executor_));
-        // WebSocket协议处理器
+        // WebSocket Protocol Handler
         p.addLast(new WebSocketServerProtocolHandler("/ws"));
-        // WebSocket业务逻辑处理器
+        // WebSocket Business Handler
         p.addLast(new WebSocketHandler(business_executor_));
     }
 }

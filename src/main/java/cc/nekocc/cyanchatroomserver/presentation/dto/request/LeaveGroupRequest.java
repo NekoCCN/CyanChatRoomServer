@@ -2,5 +2,5 @@ package cc.nekocc.cyanchatroomserver.presentation.dto.request;
 
 import java.util.UUID;
 
-public record FetchKeysRequest(UUID user_id)
+public record LeaveGroupRequest(UUID group_id)
 {  }

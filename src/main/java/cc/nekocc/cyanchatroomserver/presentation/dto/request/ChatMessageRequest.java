@@ -1,5 +1,7 @@
 package cc.nekocc.cyanchatroomserver.presentation.dto.request;
 
-public record ChatMessageRequest(String recipient_type, Integer recipient_id,
-                                 String content_type, String content)
+import java.util.UUID;
+
+public record ChatMessageRequest(String recipient_type, UUID recipient_id,
+                                 String content_type, boolean is_encrypted, String content)
 {  }
