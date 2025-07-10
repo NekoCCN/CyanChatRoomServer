@@ -385,6 +385,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception
     {
+        /*
         if (evt instanceof IdleStateEvent)
         {
             IdleStateEvent e = (IdleStateEvent) evt;
@@ -393,10 +394,10 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame
                 System.out.println("Timeout: " + ctx.channel().id());
                 ctx.close();
             }
-        }
-        else
+        } else
         {
             super.userEventTriggered(ctx, evt);
         }
+        */
     }
 }

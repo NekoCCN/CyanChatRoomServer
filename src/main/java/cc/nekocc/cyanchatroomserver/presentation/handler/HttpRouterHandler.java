@@ -16,14 +16,14 @@ import java.util.concurrent.ExecutorService;
 
 public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpRequest>
 {
-    private final ExecutorService businessExecutor;
-    private final FileApplicationService fileAppService = new FileApplicationServiceImpl();
-    private final FileSystemStorageService storageService = new FileSystemStorageService();
-    private static final HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
+    private final ExecutorService business_executor_;
+    private final FileApplicationService file_app_service_ = new FileApplicationServiceImpl();
+    private final FileSystemStorageService storage_service_ = new FileSystemStorageService();
+    private static final HttpDataFactory factory_ = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
 
     public HttpRouterHandler(ExecutorService businessExecutor)
     {
-        this.businessExecutor = businessExecutor;
+        this.business_executor_ = businessExecutor;
     }
 
     @Override
@@ -34,14 +34,37 @@ public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpReque
 
         if (method.equals(HttpMethod.POST) && uri.startsWith("/api/files/upload/"))
         {
-            businessExecutor.submit(() -> handleUpload(ctx, request));
-        } else if (method.equals(HttpMethod.GET) && uri.startsWith("/api/files/download/"))
+            request.retain();
+            business_executor_.submit(() ->
+            {
+                try
+                {
+                    handleUpload(ctx, request);
+                } finally
+                {
+                    request.release();
+                }
+            });
+        }
+        else if (method.equals(HttpMethod.GET) && uri.startsWith("/api/files/download/"))
         {
-            businessExecutor.submit(() -> handleDownload(ctx, request));
-        } else if (uri.startsWith("/ws"))
+            request.retain();
+            business_executor_.submit(() ->
+            {
+                try
+                {
+                    handleDownload(ctx, request);
+                } finally
+                {
+                    request.release();
+                }
+            });
+        }
+        else if (uri.startsWith("/ws"))
         {
             ctx.fireChannelRead(request.retain());
-        } else
+        }
+        else
         {
             sendError(ctx, HttpResponseStatus.NOT_FOUND);
         }
@@ -51,7 +74,7 @@ public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpReque
     {
         HttpPostRequestDecoder decoder = null;
         try {
-            decoder = new HttpPostRequestDecoder(factory, request);
+            decoder = new HttpPostRequestDecoder(factory_, request);
             InterfaceHttpData data = decoder.getBodyHttpData("file");
 
             if (data != null && data.getHttpDataType() == InterfaceHttpData.HttpDataType.FileUpload)
@@ -61,10 +84,10 @@ public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpReque
 
                 try (InputStream in = new ByteBufInputStream(file_upload.getByteBuf()))
                 {
-                    storageService.save(in, file_id);
+                    storage_service_.save(in, file_id);
                 }
 
-                fileAppService.completeUpload(file_id);
+                file_app_service_.completeUpload(file_id);
 
                 sendOk(ctx, "Upload complete for file_id: " + file_id);
             }
@@ -90,41 +113,48 @@ public class HttpRouterHandler extends SimpleChannelInboundHandler<FullHttpReque
     private void handleDownload(ChannelHandlerContext ctx, FullHttpRequest request)
     {
         String fileId = request.uri().substring(request.uri().lastIndexOf('/') + 1);
-        fileAppService.findFileById(fileId).ifPresentOrElse(metadata ->
+        try
         {
-            try
+            file_app_service_.findFileById(fileId).ifPresentOrElse(metadata ->
             {
-                Path file_path = storageService.load(metadata.getStoragePath());
-                File file = file_path.toFile();
-                if (file.exists() && !file.isHidden())
+                try
                 {
-                    HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-                    response.headers().set(HttpHeaderNames.CONTENT_TYPE, metadata.getMimeType() != null ? metadata.getMimeType() : "application/octet-stream");
-                    response.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
-                    response.headers().set(HttpHeaderNames.CONTENT_DISPOSITION, "attachment; filename=\"" + metadata.getOriginalName() + "\"");
-
-                    ctx.write(response);
-                    ChannelFuture sendFileFuture = ctx.write(new DefaultFileRegion(file, 0, file.length()), ctx.newProgressivePromise());
-                    ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
-
-                    sendFileFuture.addListener(future ->
+                    Path file_path = storage_service_.load(metadata.getStoragePath());
+                    File file = file_path.toFile();
+                    if (file.exists() && !file.isHidden())
                     {
-                        if (!future.isSuccess())
+                        HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+                        response.headers().set(HttpHeaderNames.CONTENT_TYPE, metadata.getMimeType() != null ? metadata.getMimeType() : "application/octet-stream");
+                        response.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
+                        response.headers().set(HttpHeaderNames.CONTENT_DISPOSITION, "attachment; filename=\"" + metadata.getOriginalName() + "\"");
+
+                        ctx.write(response);
+                        ChannelFuture sendFileFuture = ctx.write(new DefaultFileRegion(file, 0, file.length()), ctx.newProgressivePromise());
+                        ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
+
+                        sendFileFuture.addListener(future ->
                         {
-                            System.err.println("Send file failed: " + future.cause());
-                        }
-                    });
-                } else
+                            if (!future.isSuccess())
+                            {
+                                System.err.println("Send file failed: " + future.cause());
+                            }
+                        });
+                    } else
+                    {
+                        sendError(ctx, HttpResponseStatus.NOT_FOUND);
+                    }
+                } catch (Exception e)
                 {
-                    sendError(ctx, HttpResponseStatus.NOT_FOUND);
+                    e.printStackTrace();
+                    sendError(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR);
                 }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                sendError(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR);
-            }
-        }, () -> sendError(ctx, HttpResponseStatus.NOT_FOUND));
+            }, () -> sendError(ctx, HttpResponseStatus.NOT_FOUND));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            sendError(ctx, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private static void sendError(ChannelHandlerContext ctx, HttpResponseStatus status)
