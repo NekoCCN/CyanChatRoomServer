@@ -9,6 +9,16 @@
 
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.OffsetDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.user.UserStatus"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.message.MessageContentType"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupMemberRole"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinMode"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinRequestStatus"/>
         <typeHandler handler="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.typehandler.UUIDTypeHandler"/>
     </typeHandlers>
 

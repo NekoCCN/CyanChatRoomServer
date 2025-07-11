@@ -5,15 +5,15 @@
         <id property="id_" column="id"/>
         <result property="recipient_type_" column="recipient_type"/>
         <result property="recipient_id_" column="recipient_id" javaType="java.util.UUID"/>
-        <result property="content_type_" column="content_type" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="content_type_" column="content_type"/>
         <result property="is_encrypted_" column="is_encrypted"/>
         <result property="message_payload_" column="message_payload"/>
         <result property="stored_at_" column="stored_at"/>
     </resultMap>
 
     <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.message.OfflineMessage">
-        INSERT INTO offline_messages (recipient_type, recipient_id, content_type, is_encrypted, message_payload, stored_at)
-        VALUES (#{recipient_type_}, #{recipient_id_}, #{content_type_}::varchar, #{is_encrypted_}, #{message_payload_}, #{stored_at_})
+        INSERT INTO offline_messages (id, recipient_type, recipient_id, content_type, is_encrypted, message_payload, stored_at)
+        VALUES (#{id}, #{recipient_type_}, #{recipient_id_}, #{content_type_}::varchar, #{is_encrypted_}, #{message_payload_}, #{stored_at_})
     </insert>
 
     <select id="findMessagesForUser" resultMap="OfflineMessageResultMap">

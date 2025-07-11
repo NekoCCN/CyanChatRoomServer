@@ -20,5 +20,5 @@ public interface OfflineMessageRepository
      * 删除一个用户的所有已投递的离线消息
      * @param message_ids 要删除的消息ID列表
      */
-    void deleteByIds(List<Long> message_ids);
+    void deleteByIds(List<UUID> message_ids);
 }

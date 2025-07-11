@@ -12,5 +12,5 @@ public interface OfflineMessageMapper
             @Param("user_id") UUID user_id,
             @Param("group_ids") List<UUID> group_ids
     );
-    int deleteByIds(@Param("ids") List<Long> ids);
+    int deleteByIds(@Param("ids") List<UUID> ids);
 }

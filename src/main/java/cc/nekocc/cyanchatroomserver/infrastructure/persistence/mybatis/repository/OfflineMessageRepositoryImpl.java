@@ -27,7 +27,7 @@ public class OfflineMessageRepositoryImpl implements OfflineMessageRepository
     }
 
     @Override
-    public void deleteByIds(List<Long> message_ids)
+    public void deleteByIds(List<UUID> message_ids)
     {
         if (message_ids == null || message_ids.isEmpty())
         {

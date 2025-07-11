@@ -12,6 +12,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class UserApplicationServiceImpl implements UserApplicationService
@@ -45,7 +46,15 @@ public class UserApplicationServiceImpl implements UserApplicationService
     @Override
     public void processPostLoginTasks(User user, Channel channel)
     {
-        List<OfflineMessage> messages = offline_message_repository_.findMessagesForUser(user.getId(), null);
+        List<OfflineMessage> messages = null;
+        try
+        {
+            messages = offline_message_repository_.findMessagesForUser(user.getId(), null);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         if (messages.isEmpty())
         {
             return;
@@ -55,7 +64,7 @@ public class UserApplicationServiceImpl implements UserApplicationService
         {
             channel.writeAndFlush(new TextWebSocketFrame(msg.getMessagePayload()));
         }
-        List<Long> messageIds = messages.stream().map(OfflineMessage::getId).collect(Collectors.toList());
+        List<UUID> messageIds = messages.stream().map(OfflineMessage::getId).collect(Collectors.toList());
         offline_message_repository_.deleteByIds(messageIds);
         System.out.println("用户 " + user.getId() + " 的离线消息已清理完毕");
     }

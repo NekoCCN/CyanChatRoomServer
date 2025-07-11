@@ -1,5 +1,6 @@
 package cc.nekocc.cyanchatroomserver.presentation.handler;
 
+import cc.nekocc.cyanchatroomserver.infrastructure.config.MyBatisUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import cc.nekocc.cyanchatroomserver.application.impl.*;

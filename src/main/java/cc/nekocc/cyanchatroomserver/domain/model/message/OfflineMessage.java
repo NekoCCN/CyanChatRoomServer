@@ -1,5 +1,7 @@
 package cc.nekocc.cyanchatroomserver.domain.model.message;
 
+import com.github.f4b6a3.uuid.UuidCreator;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -9,7 +11,7 @@ import java.util.UUID;
  */
 public class OfflineMessage
 {
-    private Long id_;
+    private UUID id_;
     private String recipient_type_;
     private UUID recipient_id_;
 
@@ -22,6 +24,7 @@ public class OfflineMessage
 
     public OfflineMessage(String recipient_type, UUID recipient_id, MessageContentType content_type, boolean is_encrypted, String message_payload)
     {
+        id_ = UuidCreator.getTimeOrderedEpoch();
         recipient_type_ = recipient_type;
         recipient_id_ = recipient_id;
         content_type_ = content_type;
@@ -33,14 +36,9 @@ public class OfflineMessage
     public OfflineMessage()
     {  }
 
-    public Long getId()
+    public UUID getId()
     {
         return id_;
-    }
-
-    public void setId(Long id)
-    {
-        id_ = id;
     }
 
     public String getRecipientType()
