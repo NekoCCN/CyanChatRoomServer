@@ -6,6 +6,8 @@ public final class MessageType
     {  }
 
     public static final String REGISTER_REQUEST = "REGISTER_REQUEST";
+    public static final String REGISTER_RESPONSE = "REGISTER_RESPONSE";
+
     public static final String LOGIN_REQUEST = "LOGIN_REQUEST";
 
     public static final String UPDATE_PROFILE_REQUEST = "UPDATE_PROFILE_REQUEST";
@@ -14,7 +16,12 @@ public final class MessageType
 
     public static final String CHAT_MESSAGE = "CHAT_MESSAGE";
 
+    public static final String GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
+    public static final String GET_USER_DETAILS_RESPONSE = "GET_USER_DETAILS_RESPONSE";
+
     public static final String CREATE_GROUP_REQUEST = "CREATE_GROUP_REQUEST";
+    public static final String CREATE_GROUP_RESPONSE = "CREATE_GROUP_RESPONSE";
+
     public static final String JOIN_GROUP_REQUEST = "JOIN_GROUP_REQUEST";
     public static final String HANDLE_JOIN_REQUEST = "HANDLE_JOIN_REQUEST";
     public static final String LEAVE_GROUP_REQUEST = "LEAVE_GROUP_REQUEST";
@@ -26,11 +33,4 @@ public final class MessageType
 
     public static final String PUBLISH_KEYS_REQUEST = "PUBLISH_KEYS_REQUEST";
     public static final String FETCH_KEYS_REQUEST = "FETCH_KEYS_REQUEST";
-
-    public static final String REGISTER_SUCCESS = "REGISTER_SUCCESS";
-    public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
-    public static final String LOGIN_FAILED = "LOGIN_FAILED";
-    public static final String BROADCAST_MESSAGE = "BROADCAST_MESSAGE";
-    public static final String RESPONSE_FILE_UPLOAD = "RESPONSE_FILE_UPLOAD";
-    public static final String ERROR_RESPONSE = "ERROR_RESPONSE";
 }

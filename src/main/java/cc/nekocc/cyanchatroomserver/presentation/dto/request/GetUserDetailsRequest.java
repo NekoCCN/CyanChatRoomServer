@@ -2,5 +2,5 @@ package cc.nekocc.cyanchatroomserver.presentation.dto.request;
 
 import java.util.UUID;
 
-public record LeaveGroupRequest(UUID client_request_id, UUID group_id)
+public record GetUserDetailsRequest(UUID client_request_id, UUID user_id)
 {  }

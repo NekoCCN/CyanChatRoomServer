@@ -13,5 +13,5 @@ import java.util.UUID;
 	}
 }
  */
-public record SetMemberRoleRequest(UUID group_id, UUID target_user_id, GroupMemberRole new_role)
+public record SetMemberRoleRequest(UUID client_request_id, UUID group_id, UUID target_user_id, GroupMemberRole new_role)
 {  }

@@ -1,4 +1,7 @@
 package cc.nekocc.cyanchatroomserver.presentation.dto.request;
 
-public record RegisterRequest(String user_name, String password, String nick_name)
+import java.util.UUID;
+
+public record RegisterRequest(UUID client_request_id,
+                              String username, String password, String nick_name)
 {  }

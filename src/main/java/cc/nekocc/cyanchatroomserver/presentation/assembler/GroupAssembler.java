@@ -7,13 +7,15 @@ import java.util.UUID;
 
 public class GroupAssembler
 {
-    public static GroupResponse toDTO(Group group, List<UUID> member_ids)
+    public static GroupResponse toDTO(UUID client_request_id, boolean success, Group group, List<UUID> member_ids)
     {
         if (group == null)
         {
             return null;
         }
         return new GroupResponse(
+                client_request_id,
+                success,
                 group.getId(),
                 group.getName(),
                 group.getCreatorId(),

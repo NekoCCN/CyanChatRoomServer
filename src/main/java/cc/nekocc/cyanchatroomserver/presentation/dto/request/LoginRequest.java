@@ -1,5 +1,7 @@
 package cc.nekocc.cyanchatroomserver.presentation.dto.request;
 
+import java.util.UUID;
+
 /*
 Example JSON for REGISTER_REQUEST:
 {
@@ -11,5 +13,5 @@ Example JSON for REGISTER_REQUEST:
     }
 }
  */
-public record LoginRequest(String username, String password)
+public record LoginRequest(UUID client_request_id, String username, String password)
 {  }

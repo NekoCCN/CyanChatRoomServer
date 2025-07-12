@@ -34,4 +34,13 @@ public interface UserApplicationService
      * @throws Exception 如果用户名已存在或注册失败
      */
     User register(String user_name, String password, String nick_name) throws Exception;
+
+    /**
+     * 根据用户ID获取用户信息
+     *
+     * @param userId 用户ID
+     * @return 包含用户信息的User实体
+     * @throws Exception 如果查询失败
+     */
+    Optional<User> getUserById(UUID userId) throws Exception;
 }
