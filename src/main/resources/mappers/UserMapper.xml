@@ -5,7 +5,7 @@
         <id property="id_" column="id" javaType="java.util.UUID"/>
         <result property="username_" column="username"/>
         <result property="password_hash_" column="password_hash"/>
-        <result property="status_" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="status_" column="status"/>
         <result property="nickname_" column="nickname"/>
         <result property="avatar_url_" column="avatar_url"/>
         <result property="signature_" column="signature"/>

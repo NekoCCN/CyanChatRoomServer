@@ -5,7 +5,7 @@
         <id property="id_" column="id"/>
         <result property="group_id_" column="group_id" javaType="java.util.UUID"/>
         <result property="user_id_" column="user_id" javaType="java.util.UUID"/>
-        <result property="role_" column="role" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="role_" column="role"/>
         <result property="joined_at_" column="joined_at"/>
     </resultMap>
 
