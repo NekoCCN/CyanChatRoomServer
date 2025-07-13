@@ -18,13 +18,14 @@ public class User
     private String public_key_bundle_;
     private OffsetDateTime created_at_;
     
-    public User(String username, String password_hash, String nickname)
+    public User(String username, String password_hash, String nickname, String signature)
     {
         id_ = UuidCreator.getTimeOrderedEpoch();
         username_ = username;
         password_hash_ = password_hash;
         nickname_ = nickname;
         status_ = UserStatus.ONLINE;
+        signature_ = signature;
         created_at_ = OffsetDateTime.now();
     }
     

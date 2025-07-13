@@ -33,7 +33,7 @@ public interface UserApplicationService
      * @return 创建成功后的User实体
      * @throws Exception 如果用户名已存在或注册失败
      */
-    User register(String user_name, String password, String nick_name) throws Exception;
+    User register(String user_name, String password, String nick_name, String sign) throws Exception;
 
     /**
      * 根据用户ID获取用户信息

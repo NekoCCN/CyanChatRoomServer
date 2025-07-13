@@ -21,7 +21,7 @@ public class UserApplicationServiceImpl implements UserApplicationService
     private final OfflineMessageRepository offline_message_repository_ = new OfflineMessageRepositoryImpl();
 
     @Override
-    public User register(String user_name, String password, String nick_name) throws Exception
+    public User register(String user_name, String password, String nick_name, String sign) throws Exception
     {
         if (user_repository_.findByUsername(user_name).isPresent())
         {
@@ -29,7 +29,7 @@ public class UserApplicationServiceImpl implements UserApplicationService
         }
 
         String password_hash = BCrypt.hashpw(password, BCrypt.gensalt());
-        User new_user = new User(user_name, password_hash, nick_name);
+        User new_user = new User(user_name, password_hash, nick_name, sign);
 
         user_repository_.save(new_user);
 
