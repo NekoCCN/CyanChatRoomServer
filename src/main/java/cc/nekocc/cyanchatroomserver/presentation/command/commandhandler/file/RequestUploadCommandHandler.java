@@ -1,4 +1,4 @@
-package cc.nekocc.cyanchatroomserver.presentation.command.commandhandler;
+package cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.file;
 
 import cc.nekocc.cyanchatroomserver.application.impl.FileApplicationServiceImpl;
 import cc.nekocc.cyanchatroomserver.application.service.FileApplicationService;
@@ -6,7 +6,7 @@ import cc.nekocc.cyanchatroomserver.constant.MessageType;
 import cc.nekocc.cyanchatroomserver.domain.model.file.FileMetadata;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.FileUploadRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.file.FileUploadRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.FileUploadResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;

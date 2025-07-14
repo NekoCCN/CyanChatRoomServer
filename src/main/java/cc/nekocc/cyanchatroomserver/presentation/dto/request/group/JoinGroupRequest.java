@@ -1,4 +1,4 @@
-package cc.nekocc.cyanchatroomserver.presentation.dto.request;
+package cc.nekocc.cyanchatroomserver.presentation.dto.request.group;
 
 import java.util.UUID;
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.mapper.FriendshipMapper">
+
+    <resultMap id="friendshipResultMap" type="cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship">
+        <id property="id_" column="id"/>
+        <result property="user_one_id_" column="user_one_id"/>
+        <result property="user_two_id_" column="user_two_id"/>
+        <result property="status_" column="status"/>
+        <result property="action_user_id_" column="action_user_id"/>
+        <result property="created_at_" column="created_at"/>
+        <result property="updated_at_" column="updated_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship">
+        INSERT INTO friendships
+        (id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at)
+        VALUES
+            (#{friendship.id}, #{friendship.userOneId}, #{friendship.userTwoId}, #{friendship.status}, #{friendship.actionUserId}, #{friendship.createdAt}, #{friendship.updatedAt})
+    </insert>
+
+    <select id="findById" parameterType="java.util.UUID" resultMap="friendshipResultMap">
+        SELECT id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at
+        FROM friendships
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByUserIds" resultMap="friendshipResultMap">
+        SELECT id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at
+        FROM friendships
+        WHERE user_one_id = #{user_one_id} AND user_two_id = #{user_two_id}
+    </select>
+
+    <select id="findByUserId" parameterType="java.util.UUID" resultMap="friendshipResultMap">
+        SELECT id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at
+        FROM friendships
+        WHERE user_one_id = #{user_id} OR user_two_id = #{user_id}
+    </select>
+
+    <select id="findActiveByUserId" parameterType="java.util.UUID" resultMap="friendshipResultMap">
+        SELECT id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at
+        FROM friendships
+        WHERE user_one_id = #{user_id} OR user_two_id = #{user_id} AND status = 'ACCEPTED'
+    </select>
+
+    <update id="update" parameterType="cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship">
+        UPDATE friendships
+        SET
+            status = #{status},
+            action_user_id = #{actionUserId},  updated_at = now()
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.util.UUID">
+        DELETE FROM friendships
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

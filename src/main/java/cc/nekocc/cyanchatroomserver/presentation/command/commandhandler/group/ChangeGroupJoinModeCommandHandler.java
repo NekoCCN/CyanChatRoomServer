@@ -5,7 +5,7 @@ import cc.nekocc.cyanchatroomserver.application.service.GroupApplicationService;
 import cc.nekocc.cyanchatroomserver.constant.MessageType;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.ChangeGroupJoinModeRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.group.ChangeGroupJoinModeRequest;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,8 +22,17 @@ public class ChangeGroupJoinModeCommandHandler implements CommandHandler
         {
             ProtocolMessage<ChangeGroupJoinModeRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, ChangeGroupJoinModeRequest.class);
             ChangeGroupJoinModeRequest payload = request_msg.getPayload();
-            group_app_service_.changeGroupJoinMode(operator_id, payload.group_id(), payload.new_mode());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "加群方式已更新", "CHANGE_GROUP_JOIN_MODE_SUCCESS");
+            try
+            {
+                group_app_service_.changeGroupJoinMode(operator_id, payload.group_id(), payload.new_mode());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(),  true,
+                        "加群方式已更新", "");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false,
+                        "无法更改加群方式: " + e.getMessage(), "CHANGE_GROUP_JOIN_MODE_ERROR");
+            }
         });
     }
 }

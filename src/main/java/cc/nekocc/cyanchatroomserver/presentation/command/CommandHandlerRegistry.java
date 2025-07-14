@@ -2,6 +2,8 @@ package cc.nekocc.cyanchatroomserver.presentation.command;
 
 import cc.nekocc.cyanchatroomserver.constant.MessageType;
 import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.*;
+import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.file.RequestUploadCommandHandler;
+import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.friendship.*;
 import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.group.*;
 import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.user.*;
 import cc.nekocc.cyanchatroomserver.presentation.command.commandhandler.e2ee.*;
@@ -54,6 +56,14 @@ public final class CommandHandlerRegistry
         handler_map_.put(MessageType.REMOVE_MEMBER_REQUEST, new RemoveMemberCommandHandler());
         handler_map_.put(MessageType.SET_MEMBER_ROLE_REQUEST, new SetMemberRoleCommandHandler());
         handler_map_.put(MessageType.CHANGE_GROUP_JOIN_MODE_REQUEST, new ChangeGroupJoinModeCommandHandler());
+
+        // Friendship
+        handler_map_.put(MessageType.ACCEPT_FRIENDSHIP_REQUEST, new AcceptFriendshipCommandHandler());
+        handler_map_.put(MessageType.REJECT_FRIENDSHIP_REQUEST, new RejectFriendshipCommandHandler());
+        handler_map_.put(MessageType.SEND_FRIENDSHIP_REQUEST, new SendFriendshipCommandHandler());
+        handler_map_.put(MessageType.GET_FRIENDSHIP_LIST_REQUEST, new GetFriendshipListCommandHandler());
+        handler_map_.put(MessageType.GET_ACTIVE_FRIENDSHIP_LIST_REQUEST, new GetActiveFriendshipListCommandHandler());
+        handler_map_.put(MessageType.CHECK_FRIENDSHIP_EXISTS_REQUEST, new CheckFriendshipExistsCommandHandler());
     }
 
     public Optional<CommandHandler> getHandler(String type)

@@ -9,7 +9,7 @@ import cc.nekocc.cyanchatroomserver.domain.model.user.User;
 import cc.nekocc.cyanchatroomserver.infrastructure.session.SessionManager;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.GetUserDetailsRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.user.GetUserDetailsRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.GetUserDetailsResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;

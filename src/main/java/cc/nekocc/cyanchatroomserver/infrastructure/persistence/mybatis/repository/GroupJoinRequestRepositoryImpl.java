@@ -13,6 +13,10 @@ public class GroupJoinRequestRepositoryImpl implements GroupJoinRequestRepositor
     @Override
     public void save(GroupJoinRequest request)
     {
+        if (request == null)
+        {
+            throw new IllegalArgumentException("GroupJoinRequest cannot be null");
+        }
         MyBatisUtil.executeUpdate(session -> session.getMapper(GroupJoinRequestMapper.class)
                .insert(request));
     }

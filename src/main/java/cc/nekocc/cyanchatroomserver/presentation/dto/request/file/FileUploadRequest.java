@@ -1,4 +1,4 @@
-package cc.nekocc.cyanchatroomserver.presentation.dto.request;
+package cc.nekocc.cyanchatroomserver.presentation.dto.request.file;
 
 /*
 Example JSON for REQUEST_FILE_UPLOAD:

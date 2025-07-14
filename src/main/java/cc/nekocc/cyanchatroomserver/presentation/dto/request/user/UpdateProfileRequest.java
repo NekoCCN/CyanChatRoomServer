@@ -1,4 +1,4 @@
-package cc.nekocc.cyanchatroomserver.presentation.dto.request;
+package cc.nekocc.cyanchatroomserver.presentation.dto.request.user;
 
 import cc.nekocc.cyanchatroomserver.domain.model.user.UserStatus;
 import java.util.UUID;

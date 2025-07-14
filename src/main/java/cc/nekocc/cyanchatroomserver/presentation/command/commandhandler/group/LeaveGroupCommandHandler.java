@@ -5,7 +5,7 @@ import cc.nekocc.cyanchatroomserver.application.service.GroupApplicationService;
 import cc.nekocc.cyanchatroomserver.constant.MessageType;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.LeaveGroupRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.group.LeaveGroupRequest;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;

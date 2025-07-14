@@ -6,13 +6,16 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import java.lang.reflect.Type;
+import java.time.OffsetDateTime;
 
 /**
  * 使用 Gson 实现的JSON序列化/反序列化工具类
  */
 public final class JsonUtil
 {
-    private static final Gson GSON = new GsonBuilder().create();
+    final static Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeAdapter())
+            .create();
 
     private JsonUtil()
     {  }

@@ -6,7 +6,7 @@ import cc.nekocc.cyanchatroomserver.domain.model.user.User;
 import cc.nekocc.cyanchatroomserver.infrastructure.session.SessionManager;
 import cc.nekocc.cyanchatroomserver.presentation.assembler.UserAssembler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.LoginRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.user.LoginRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.UserOperatorResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;

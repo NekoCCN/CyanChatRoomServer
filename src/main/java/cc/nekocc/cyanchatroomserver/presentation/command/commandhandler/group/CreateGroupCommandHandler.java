@@ -7,7 +7,7 @@ import cc.nekocc.cyanchatroomserver.domain.model.group.Group;
 import cc.nekocc.cyanchatroomserver.presentation.assembler.GroupAssembler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.CreateGroupRequest;
+import cc.nekocc.cyanchatroomserver.presentation.dto.request.group.CreateGroupRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.GroupResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;

@@ -19,6 +19,8 @@
                      javaType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinMode"/>
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
                      javaType="cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinRequestStatus"/>
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="cc.nekocc.cyanchatroomserver.domain.model.friendship.FriendshipRequestStatus"/>
         <typeHandler handler="cc.nekocc.cyanchatroomserver.infrastructure.persistence.mybatis.typehandler.UUIDTypeHandler"/>
     </typeHandlers>
 
@@ -35,5 +37,6 @@
         <mapper resource="mappers/GroupMapper.xml"/>
         <mapper resource="mappers/GroupMemberMapper.xml"/>
         <mapper resource="mappers/FileMapper.xml"/>
+        <mapper resource="mappers/FriendshipMapper.xml"/>
     </mappers>
 </configuration>
