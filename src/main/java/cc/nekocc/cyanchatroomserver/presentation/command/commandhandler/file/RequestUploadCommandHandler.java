@@ -25,12 +25,21 @@ public class RequestUploadCommandHandler implements CommandHandler
         {
             ProtocolMessage<FileUploadRequest> msg = JsonUtil.deserializeProtocolMessage(json_request, FileUploadRequest.class);
             FileUploadRequest payload = msg.getPayload();
-            FileMetadata metadata = file_app_service_.requestUpload(uploader_id, payload.file_name(), payload.file_size(), payload.expires_in_hours());
-
-            FileUploadResponse response_payload = new FileUploadResponse(metadata.getId(),
-                    "/api/files/upload/" + metadata.getId(), payload.client_id());
-            ProtocolMessage<FileUploadResponse> response_msg = new ProtocolMessage<>("RESPONSE_FILE_UPLOAD", response_payload);
-            ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+            try
+            {
+                FileMetadata metadata = file_app_service_.requestUpload(uploader_id, payload.file_name(), payload.file_size(), payload.expires_in_hours());
+                FileUploadResponse response_payload = new FileUploadResponse(metadata.getId(),
+                        "/api/files/upload/" + metadata.getId(), payload.client_id());
+                ProtocolMessage<FileUploadResponse> response_msg = new ProtocolMessage<>("RESPONSE_FILE_UPLOAD", response_payload);
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+            }
+            catch (Exception e)
+            {
+                FileUploadResponse response_payload = new FileUploadResponse(null,
+                        null, payload.client_id());
+                ProtocolMessage<FileUploadResponse> response_msg = new ProtocolMessage<>("RESPONSE_FILE_UPLOAD", response_payload);
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+            }
         });
     }
 }

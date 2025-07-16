@@ -31,6 +31,7 @@ public final class CommandHandlerRegistry
         // User
         handler_map_.put(MessageType.REGISTER_REQUEST, new RegisterCommandHandler());
         handler_map_.put(MessageType.LOGIN_REQUEST, new LoginCommandHandler());
+        handler_map_.put(MessageType.GET_UUID_BY_USERNAME_REQUEST, new GetUuidByUsernameCommandHandler());
 
         // Message
         handler_map_.put(MessageType.CHAT_MESSAGE, new ChatMessageCommandHandler());

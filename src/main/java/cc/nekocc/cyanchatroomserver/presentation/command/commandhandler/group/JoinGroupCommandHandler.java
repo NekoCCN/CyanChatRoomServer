@@ -19,11 +19,18 @@ public class JoinGroupCommandHandler implements CommandHandler
     public void handle(ChannelHandlerContext ctx, String json_request)
     {
         CommandHelper.withAuthenticatedUser(ctx, json_request, MessageType.JOIN_GROUP_REQUEST, (UUID user_id) ->
-        {
-            ProtocolMessage<JoinGroupRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, JoinGroupRequest.class);
-            JoinGroupRequest payload = request_msg.getPayload();
-            group_app_service_.requestToJoinGroup(user_id, payload.group_id(), payload.request_message());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "请求已发送", "JOIN_GROUP_SUCCESS");
-        });
+                {
+                    ProtocolMessage<JoinGroupRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, JoinGroupRequest.class);
+                    JoinGroupRequest payload = request_msg.getPayload();
+                    try
+                    {
+                        group_app_service_.requestToJoinGroup(user_id, payload.group_id(), payload.request_message());
+                        CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "请求已发送", "JOIN_GROUP_SUCCESS");
+                    }
+                    catch (Exception e)
+                    {
+                        CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false, "无法加入群组: " + e.getMessage(), "JOIN_GROUP_ERROR");
+                    }
+                });
     }
 }

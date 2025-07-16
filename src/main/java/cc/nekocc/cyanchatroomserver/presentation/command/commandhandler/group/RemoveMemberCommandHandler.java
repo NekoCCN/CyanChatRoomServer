@@ -22,8 +22,16 @@ public class RemoveMemberCommandHandler implements CommandHandler
         {
             ProtocolMessage<RemoveMemberRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, RemoveMemberRequest.class);
             RemoveMemberRequest payload = request_msg.getPayload();
-            group_app_service_.removeMember(operator_id, payload.group_id(), payload.target_user_id());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "成员已移除", "REMOVE_MEMBER_SUCCESS");
+            try
+            {
+                group_app_service_.removeMember(operator_id, payload.group_id(), payload.target_user_id());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "成员已移除", "REMOVE_MEMBER_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false,
+                        "无法移除成员: " + e.getMessage(), "REMOVE_MEMBER_ERROR");
+            }
         });
     }
 }

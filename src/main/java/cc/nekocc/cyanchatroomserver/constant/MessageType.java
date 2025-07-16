@@ -22,6 +22,9 @@ public final class MessageType
     public static final String CREATE_GROUP_REQUEST = "CREATE_GROUP_REQUEST";
     public static final String CREATE_GROUP_RESPONSE = "CREATE_GROUP_RESPONSE";
 
+    public static final String GET_UUID_BY_USERNAME_REQUEST = "GET_UUID_BY_USERNAME_REQUEST";
+    public static final String GET_UUID_BY_USERNAME_RESPONSE = "GET_UUID_BY_USERNAME_RESPONSE";
+
     public static final String JOIN_GROUP_REQUEST = "JOIN_GROUP_REQUEST";
     public static final String HANDLE_JOIN_REQUEST = "HANDLE_JOIN_REQUEST";
     public static final String LEAVE_GROUP_REQUEST = "LEAVE_GROUP_REQUEST";

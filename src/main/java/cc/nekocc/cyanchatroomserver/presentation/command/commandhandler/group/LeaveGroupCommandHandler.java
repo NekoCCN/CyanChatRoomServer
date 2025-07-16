@@ -22,8 +22,15 @@ public class LeaveGroupCommandHandler implements CommandHandler
         {
             ProtocolMessage<LeaveGroupRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, LeaveGroupRequest.class);
             LeaveGroupRequest payload = request_msg.getPayload();
-            group_app_service_.leaveGroup(user_id, payload.group_id());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "已退出群组", "LEAVE_GROUP_SUCCESS");
+            try
+            {
+                group_app_service_.leaveGroup(user_id, payload.group_id());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "已退出群组", "LEAVE_GROUP_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false, "无法退出群组: " + e.getMessage(), "LEAVE_GROUP_ERROR");
+            }
         });
     }
 }

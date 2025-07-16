@@ -22,8 +22,15 @@ public class ChangePasswordCommandHandler implements CommandHandler
         {
             ProtocolMessage<ChangePasswordRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, ChangePasswordRequest.class);
             ChangePasswordRequest payload = request_msg.getPayload();
-            profile_app_service_.changePassword(user_id, payload.current_password(), payload.new_password());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "Password changed successfully.", "CHANGE_PASSWORD_SUCCESS");
+            try
+            {
+                profile_app_service_.changePassword(user_id, payload.current_password(), payload.new_password());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "Password changed successfully.", "CHANGE_PASSWORD_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false, "Failed to change password: " + e.getMessage(), "CHANGE_PASSWORD_FAILED");
+            }
         });
     }
 }

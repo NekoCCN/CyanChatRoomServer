@@ -41,7 +41,7 @@
     <select id="findActiveByUserId" parameterType="java.util.UUID" resultMap="friendshipResultMap">
         SELECT id, user_one_id, user_two_id, status, action_user_id, created_at, updated_at
         FROM friendships
-        WHERE user_one_id = #{user_id} OR user_two_id = #{user_id} AND status = 'ACCEPTED'
+        WHERE user_one_id = (#{user_id} OR user_two_id = #{user_id}) AND status = 'ACCEPTED'
     </select>
 
     <update id="update" parameterType="cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship">

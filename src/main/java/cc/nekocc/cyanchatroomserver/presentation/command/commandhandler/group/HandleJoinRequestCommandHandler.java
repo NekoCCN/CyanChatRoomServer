@@ -22,8 +22,15 @@ public class HandleJoinRequestCommandHandler implements CommandHandler
         {
             ProtocolMessage<HandleJoinRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, HandleJoinRequest.class);
             HandleJoinRequest payload = request_msg.getPayload();
-            group_app_service_.handleJoinRequest(payload.group_id(), handler_id, payload.request_id(), payload.approved());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "请求已处理", "HANDLE_JOIN_SUCCESS");
+            try
+            {
+                group_app_service_.handleJoinRequest(payload.group_id(), handler_id, payload.request_id(), payload.approved());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "请求已处理", "HANDLE_JOIN_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false, "无法处理请求: " + e.getMessage(), "HANDLE_JOIN_ERROR");
+            }
         });
     }
 }

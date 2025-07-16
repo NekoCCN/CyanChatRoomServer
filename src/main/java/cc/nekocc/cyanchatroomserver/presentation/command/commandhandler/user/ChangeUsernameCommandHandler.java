@@ -22,8 +22,15 @@ public class ChangeUsernameCommandHandler implements CommandHandler
         {
             ProtocolMessage<ChangeUsernameRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, ChangeUsernameRequest.class);
             ChangeUsernameRequest payload = request_msg.getPayload();
-            profile_app_service_.changeUsername(user_id, payload.current_password(), payload.new_user_name());
-            CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "Username changed successfully.", "CHANGE_USERNAME_SUCCESS");
+            try
+            {
+                profile_app_service_.changeUsername(user_id, payload.current_password(), payload.new_user_name());
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), true, "Username changed successfully.", "CHANGE_USERNAME_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false, "Failed to change username: " + e.getMessage(), "CHANGE_USERNAME_FAILED");
+            }
         });
     }
 }

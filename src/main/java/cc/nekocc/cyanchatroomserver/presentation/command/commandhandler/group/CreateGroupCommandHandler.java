@@ -27,12 +27,22 @@ public class CreateGroupCommandHandler implements CommandHandler
             ProtocolMessage<CreateGroupRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, CreateGroupRequest.class);
             CreateGroupRequest payload = request_msg.getPayload();
 
-            Group new_group = group_app_service_.createGroup(creator_id, payload.group_name(), payload.member_ids());
+            try
+            {
+                Group new_group = group_app_service_.createGroup(creator_id, payload.group_name(), payload.member_ids());
 
-            GroupResponse group_dto = GroupAssembler.toDTO(payload.client_request_id(), true, new_group, payload.member_ids());
+                GroupResponse group_dto = GroupAssembler.toDTO(payload.client_request_id(), true, new_group, payload.member_ids());
 
-            ProtocolMessage<GroupResponse> response_msg = new ProtocolMessage<>(MessageType.CREATE_GROUP_RESPONSE, group_dto);
-            ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+                ProtocolMessage<GroupResponse> response_msg = new ProtocolMessage<>(MessageType.CREATE_GROUP_RESPONSE, group_dto);
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+            }
+            catch (Exception e)
+            {
+                GroupResponse group_dto = new GroupResponse(payload.client_request_id(), false, null, null, null, null);
+
+                ProtocolMessage<GroupResponse> response_msg = new ProtocolMessage<>(MessageType.CREATE_GROUP_RESPONSE, group_dto);
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+            }
         });
     }
 }

@@ -23,9 +23,17 @@ public class PublishKeysCommandHandler implements CommandHandler
             ProtocolMessage<PublishKeysRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, PublishKeysRequest.class);
             String payload_json = request_msg.getPayload().key_bundle().toString();
 
-            key_management_service_.publishKeys(user_id, payload_json);
-            CommandHelper.sendStatusResponse(ctx, request_msg.getPayload().client_request_id(), true,
-                    "Keys published successfully.", "PUBLISH_KEYS_SUCCESS");
+            try
+            {
+                key_management_service_.publishKeys(user_id, payload_json);
+                CommandHelper.sendStatusResponse(ctx, request_msg.getPayload().client_request_id(), true,
+                        "Keys published successfully.", "PUBLISH_KEYS_SUCCESS");
+            }
+            catch (Exception e)
+            {
+                CommandHelper.sendStatusResponse(ctx, request_msg.getPayload().client_request_id(), true,
+                        "Keys published failed" + e.getMessage(), "PUBLISH_KEYS_ERROR");
+            }
         });
     }
 }
