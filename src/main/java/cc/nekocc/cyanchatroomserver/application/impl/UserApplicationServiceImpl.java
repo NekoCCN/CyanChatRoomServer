@@ -43,6 +43,12 @@ public class UserApplicationServiceImpl implements UserApplicationService
     }
 
     @Override
+    public Optional<User> getUserByUsername(String username) throws Exception
+    {
+        return user_repository_.findByUsername(username);
+    }
+
+    @Override
     public Optional<User> login(String user_name, String password)
     {
         return user_repository_.findByUsername(user_name)

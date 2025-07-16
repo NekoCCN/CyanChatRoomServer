@@ -16,7 +16,6 @@ public class ChatApplicationServiceImpl implements ChatApplicationService
 
     public ChatApplicationServiceImpl()
     {
-        // 在构造函数中注入所有需要的依赖
         this.chat_domain_service_ = new ChatDomainService(
                 new OfflineMessageRepositoryImpl(),
                 new GroupMemberRepositoryImpl(),

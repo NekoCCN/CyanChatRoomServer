@@ -43,4 +43,6 @@ public interface UserApplicationService
      * @throws Exception 如果查询失败
      */
     Optional<User> getUserById(UUID userId) throws Exception;
+
+    Optional<User> getUserByUsername(String username) throws Exception;
 }
