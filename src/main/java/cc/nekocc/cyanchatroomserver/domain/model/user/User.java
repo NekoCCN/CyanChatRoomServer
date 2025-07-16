@@ -2,7 +2,6 @@ package cc.nekocc.cyanchatroomserver.domain.model.user;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
 

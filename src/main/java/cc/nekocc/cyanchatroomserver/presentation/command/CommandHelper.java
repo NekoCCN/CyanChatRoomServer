@@ -8,7 +8,6 @@ import cc.nekocc.cyanchatroomserver.util.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public final class CommandHelper
 {
@@ -40,6 +39,9 @@ public final class CommandHelper
     {
         ProtocolMessage<ErrorResponse> error_msg = new ProtocolMessage<>("ERROR_RESPONSE",
                 new ErrorResponse(error_message, request_type));
+
+        System.out.println("Sending error response: " + error_message);
+
         ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(error_msg)));
     }
 
@@ -48,6 +50,9 @@ public final class CommandHelper
     {
         ProtocolMessage<StatusResponse> response_msg = new ProtocolMessage<>(response_type,
                 new StatusResponse(client_request_id, status, message, response_type));
+
+        System.out.println("Sending status response: " + message);
+
         ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
     }
 }
