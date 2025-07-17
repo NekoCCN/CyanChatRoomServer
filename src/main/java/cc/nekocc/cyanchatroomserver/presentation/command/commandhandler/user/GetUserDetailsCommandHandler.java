@@ -40,7 +40,8 @@ public class GetUserDetailsCommandHandler implements CommandHandler
                 boolean is_key_enabled = key_management_service_.fetchKeys(user.getId()).isPresent();
 
                 GetUserDetailsResponse user_response = new GetUserDetailsResponse(
-                        payload.client_request_id(), true, user.getUsername(), user.getNickname(), user.getAvatarUrl(),
+                        payload.client_request_id(), true, user.getUsername(),
+                        user.getId(), user.getNickname(), user.getAvatarUrl(),
                         user.getSignature(), user.getStatus(), is_online, is_key_enabled);
                 ProtocolMessage<GetUserDetailsResponse> response_msg = new ProtocolMessage<>("GET_USER_DETAILS_RESPONSE", user_response);
                 ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
@@ -48,7 +49,7 @@ public class GetUserDetailsCommandHandler implements CommandHandler
             {
                 GetUserDetailsResponse user_response = new GetUserDetailsResponse(
                         payload.client_request_id(), false, null, null, null,
-                        null, null, false, false);
+                        null, null, null, false, false);
                 ProtocolMessage<GetUserDetailsResponse> response_msg = new ProtocolMessage<>("GET_USER_DETAILS_RESPONSE", user_response);
                 ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
             }
