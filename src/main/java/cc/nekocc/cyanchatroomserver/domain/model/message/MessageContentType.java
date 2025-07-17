@@ -5,4 +5,5 @@ public enum MessageContentType
     TEXT,
     FILE,
     IMAGE,
+    E2EE_INIT,
 }

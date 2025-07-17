@@ -7,7 +7,6 @@ import cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
 import cc.nekocc.cyanchatroomserver.presentation.dto.request.friendship.GetFriendshipListRequest;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.friendship.SendFriendshipRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.FriendshipListResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;

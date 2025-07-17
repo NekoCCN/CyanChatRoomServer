@@ -23,12 +23,15 @@ public class FileSystemStorageService
 
         this.root_location = Paths.get(storage_path).toAbsolutePath().normalize();
 
-        try
+        if (!Files.exists(root_location))
         {
-            Files.createDirectories(root_location);
-        } catch (IOException e)
-        {
-            throw new RuntimeException("Could not initialize storage directory: " + root_location, e);
+            try
+            {
+                Files.createDirectories(root_location);
+            } catch (IOException e)
+            {
+                throw new RuntimeException("Could not initialize storage directory: " + root_location, e);
+            }
         }
     }
 

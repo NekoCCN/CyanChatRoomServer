@@ -34,7 +34,7 @@ public class Friendship
 
     public Friendship acceptRequest(UUID user_id)
     {
-        if (user_id.equals(action_user_id_) && (user_id.equals(user_one_id_) || user_id.equals(user_two_id_)))
+        if (!user_id.equals(action_user_id_) && (user_id.equals(user_one_id_) || user_id.equals(user_two_id_)))
         {
             status_ = FriendshipRequestStatus.ACCEPTED;
             updated_at_ = OffsetDateTime.now();
@@ -48,7 +48,7 @@ public class Friendship
 
     public Friendship rejectRequest(UUID user_id)
     {
-        if (user_id.equals(action_user_id_) && (user_id.equals(user_one_id_) || user_id.equals(user_two_id_)))
+        if (!user_id.equals(action_user_id_) && (user_id.equals(user_one_id_) || user_id.equals(user_two_id_)))
         {
             status_ = FriendshipRequestStatus.REJECTED;
             updated_at_ = OffsetDateTime.now();
