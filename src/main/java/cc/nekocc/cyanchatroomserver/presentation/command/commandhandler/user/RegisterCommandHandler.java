@@ -28,7 +28,7 @@ public class RegisterCommandHandler implements CommandHandler
             User new_user = user_app_service_.register(payload.username(), payload.password(), payload.nick_name(), payload.sign());
 
             UserOperatorResponse response_payload = new UserOperatorResponse(
-                    payload.client_request_id(), true, "Registration successful.",
+                    payload.client_request_id(), true, "注册成功。",
                     UserAssembler.toDTO(new_user));
 
             ProtocolMessage<UserOperatorResponse> response_msg =

@@ -22,22 +22,31 @@ public class LoginCommandHandler implements CommandHandler
     @Override
     public void handle(ChannelHandlerContext ctx, String json_request)
     {
-        ProtocolMessage<LoginRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request, LoginRequest.class);
-        Optional<User> user_optional = user_app_service_.login(request_msg.getPayload().username(), request_msg.getPayload().password());
+        ProtocolMessage<LoginRequest> request_msg = JsonUtil.deserializeProtocolMessage(json_request,
+                LoginRequest.class);
+        Optional<User> user_optional = user_app_service_.login(request_msg.getPayload().username(),
+                request_msg.getPayload().password());
 
         ProtocolMessage<UserOperatorResponse> response_msg = new ProtocolMessage<>();
         user_optional.ifPresentOrElse(user ->
         {
             session_manager_.login(user.getId(), ctx.channel());
+
             UserOperatorResponse.UserDTO user_dto = UserAssembler.toDTO(user);
+
             response_msg.setType("LOGIN_SUCCESS");
             response_msg.setPayload(new UserOperatorResponse(request_msg.getPayload().client_request_id(), true, "Login successful!", user_dto));
+
             ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
+
             user_app_service_.processPostLoginTasks(user, ctx.channel());
         }, () ->
         {
             response_msg.setType("LOGIN_FAILED");
-            response_msg.setPayload(new UserOperatorResponse(request_msg.getPayload().client_request_id(), false, "Invalid credentials.", null));
+
+            response_msg.setPayload(new UserOperatorResponse(request_msg.getPayload().client_request_id(),
+                    false, "认证失败。", null));
+
             ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
         });
     }

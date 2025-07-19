@@ -17,11 +17,11 @@ public class FriendshipApplicationServiceImpl implements FriendshipApplicationSe
     {
         if (friendship_repository_.findByUserIds(sender_id, receiver_id).isPresent())
         {
-            throw new IllegalArgumentException("Friendship already exists between the users.");
+            throw new IllegalArgumentException("好友关系已经存在.");
         }
         if (sender_id.equals(receiver_id))
         {
-            throw new IllegalArgumentException("Users cannot be friends with themselves.");
+            throw new IllegalArgumentException("不能添加自己为好友.");
         }
         if (receiver_id == null)
         {
