@@ -65,6 +65,7 @@ public final class CommandHandlerRegistry
         handler_map_.put(MessageType.GET_FRIENDSHIP_LIST_REQUEST, new GetFriendshipListCommandHandler());
         handler_map_.put(MessageType.GET_ACTIVE_FRIENDSHIP_LIST_REQUEST, new GetActiveFriendshipListCommandHandler());
         handler_map_.put(MessageType.CHECK_FRIENDSHIP_EXISTS_REQUEST, new CheckFriendshipExistsCommandHandler());
+        handler_map_.put(MessageType.DELETE_FRIENDSHIP_REQUEST, new DeleteFriendshipCommandHandler());
     }
 
     public Optional<CommandHandler> getHandler(String type)

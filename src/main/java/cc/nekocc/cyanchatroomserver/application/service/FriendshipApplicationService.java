@@ -11,7 +11,6 @@ public interface FriendshipApplicationService
      * 发送好友申请
      * @param sender_id 发送者ID
      * @param receiver_id 接收者ID
-     * @param message 附加消息
      */
     void sendFriendshipRequest(UUID sender_id, UUID receiver_id);
 
@@ -50,4 +49,11 @@ public interface FriendshipApplicationService
      * @return 活跃好友列表
      */
     List<Friendship> getActiveFriendshipList(UUID user_id);
+
+    /**
+     * 删除好友关系
+     * @param friendship_id 好友关系ID
+     * @param request_id 请求的用户ID
+     */
+    void deleteFriendship(UUID friendship_id, UUID request_id);
 }

@@ -25,7 +25,7 @@ public class FriendshipApplicationServiceImpl implements FriendshipApplicationSe
         }
         if (receiver_id == null)
         {
-            throw new IllegalArgumentException("Sender and receiver IDs cannot be null.");
+            throw new IllegalArgumentException("发送者和接收者的ID不能为空.");
         }
 
         UUID action_id = sender_id;
@@ -45,7 +45,7 @@ public class FriendshipApplicationServiceImpl implements FriendshipApplicationSe
     public void acceptFriendshipRequest(UUID user_id, UUID request_id)
     {
         var friendship = friendship_repository_.findById(request_id)
-                .orElseThrow(() -> new IllegalArgumentException("Friendship request not found."));
+                .orElseThrow(() -> new IllegalArgumentException("好友申请不存在。"));
 
 
         friendship_repository_.update(friendship.acceptRequest(user_id));
@@ -55,7 +55,7 @@ public class FriendshipApplicationServiceImpl implements FriendshipApplicationSe
     public void rejectFriendshipRequest(UUID user_id, UUID request_id)
     {
         var friendship = friendship_repository_.findById(request_id)
-                .orElseThrow(() -> new IllegalArgumentException("Friendship request not found."));
+                .orElseThrow(() -> new IllegalArgumentException("好友申请不存在。"));
 
         friendship_repository_.update(friendship.rejectRequest(user_id));
     }
@@ -86,9 +86,28 @@ public class FriendshipApplicationServiceImpl implements FriendshipApplicationSe
     {
         if (user_id == null)
         {
-            throw new IllegalArgumentException("User ID cannot be null.");
+            throw new IllegalArgumentException("用户ID不能为空。");
         }
 
         return friendship_repository_.findActiveByUserId(user_id);
+    }
+
+    @Override
+    public void deleteFriendship(UUID friendship_id, UUID request_id)
+    {
+        if (friendship_id == null || request_id == null)
+        {
+            throw new IllegalArgumentException("好友关系ID和请求ID不能为空。");
+        }
+
+        var friendship = friendship_repository_.findById(friendship_id)
+                .orElseThrow(() -> new IllegalArgumentException("好友关系不存在。"));
+
+        if (!friendship.getUserOneId().equals(request_id) && !friendship.getUserTwoId().equals(request_id))
+        {
+            throw new IllegalArgumentException("请求的用户不是好友关系的一方。");
+        }
+
+        friendship_repository_.deleteById(friendship_id);
     }
 }
