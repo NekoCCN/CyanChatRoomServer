@@ -188,4 +188,10 @@ public class GroupApplicationServiceImpl implements GroupApplicationService
         group_repository_.update(group);
         // TODO: 向群内广播设置变更通知
     }
+
+    @Override
+    public List<UUID> getGroupIdsByUserId(UUID user_id) throws Exception
+    {
+        return group_member_repository_.findGroupIdsByUserId(user_id);
+    }
 }

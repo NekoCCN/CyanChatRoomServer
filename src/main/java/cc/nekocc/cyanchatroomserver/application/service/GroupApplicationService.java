@@ -65,4 +65,11 @@ public interface GroupApplicationService
      * @param new_mode 新的加入方式
      */
     void changeGroupJoinMode(UUID operator_id, UUID group_id, GroupJoinMode new_mode) throws Exception;
+
+    /**
+     * 获取用户所在的所有群组ID
+     * @param user_id 用户ID
+     * @return 群组ID列表
+     */
+    List<UUID> getGroupIdsByUserId(UUID user_id) throws Exception;
 }

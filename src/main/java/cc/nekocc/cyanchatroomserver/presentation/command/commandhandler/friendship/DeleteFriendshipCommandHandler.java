@@ -36,7 +36,7 @@ public class DeleteFriendshipCommandHandler implements CommandHandler
             catch (Exception e)
             {
                 CommandHelper.sendStatusResponse(ctx, payload.client_request_id(), false,
-                        "请求状态变更：删除好友关系失败 - %s".formatted(e.getMessage()), "DELETE_FRIENDSHIP_FAILED");
+                            "请求状态变更：删除好友关系失败 - %s".formatted(e.getMessage()), "DELETE_FRIENDSHIP_FAILED");
                 e.printStackTrace();
             }
         });
