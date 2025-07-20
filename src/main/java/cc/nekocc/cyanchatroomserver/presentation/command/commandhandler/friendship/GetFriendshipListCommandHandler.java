@@ -7,13 +7,11 @@ import cc.nekocc.cyanchatroomserver.domain.model.friendship.Friendship;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHandler;
 import cc.nekocc.cyanchatroomserver.presentation.command.CommandHelper;
 import cc.nekocc.cyanchatroomserver.presentation.dto.request.friendship.GetFriendshipListRequest;
-import cc.nekocc.cyanchatroomserver.presentation.dto.request.friendship.SendFriendshipRequest;
 import cc.nekocc.cyanchatroomserver.presentation.dto.response.FriendshipListResponse;
 import cc.nekocc.cyanchatroomserver.protocol.ProtocolMessage;
 import cc.nekocc.cyanchatroomserver.util.JsonUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +44,7 @@ public class GetFriendshipListCommandHandler implements CommandHandler
                                         false, null));
                 ctx.channel().writeAndFlush(new TextWebSocketFrame(JsonUtil.serialize(response_msg)));
                 e.printStackTrace();
+
                 return;
             }
         });
