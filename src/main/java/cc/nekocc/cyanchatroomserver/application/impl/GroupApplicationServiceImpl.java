@@ -194,4 +194,37 @@ public class GroupApplicationServiceImpl implements GroupApplicationService
     {
         return group_member_repository_.findGroupIdsByUserId(user_id);
     }
+
+    @Override
+    public Group getGroupById(UUID group_id) throws Exception
+    {
+        return group_repository_.findById(group_id)
+                .orElseThrow(() -> new Exception("群组不存在。"));
+    }
+
+    @Override
+    public List<GroupMember> getGroupMembers(UUID group_id) throws Exception
+    {
+        Group group = group_repository_.findById(group_id)
+                .orElseThrow(() -> new Exception("群组不存在。"));
+
+        List<UUID> group_member_uuid_list = group_member_repository_.findUserIdsByGroupId(group_id);
+
+        List<GroupMember> group_members = new ArrayList<>();
+
+        for (UUID member_id : group_member_uuid_list)
+        {
+            var member = group_member_repository_.findByGroupAndUser(group_id, member_id);
+            if (member.isPresent())
+            {
+                group_members.add(member.get());
+            }
+            else
+            {
+                throw new Exception("群组成员数据不完整，无法获取成员信息。");
+            }
+        }
+
+        return group_members;
+    }
 }

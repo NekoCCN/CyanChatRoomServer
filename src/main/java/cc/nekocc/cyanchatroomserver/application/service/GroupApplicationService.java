@@ -2,6 +2,7 @@ package cc.nekocc.cyanchatroomserver.application.service;
 
 import cc.nekocc.cyanchatroomserver.domain.model.group.Group;
 import cc.nekocc.cyanchatroomserver.domain.model.group.GroupJoinMode;
+import cc.nekocc.cyanchatroomserver.domain.model.group.GroupMember;
 import cc.nekocc.cyanchatroomserver.domain.model.group.GroupMemberRole;
 
 import java.util.List;
@@ -72,4 +73,18 @@ public interface GroupApplicationService
      * @return 群组ID列表
      */
     List<UUID> getGroupIdsByUserId(UUID user_id) throws Exception;
+
+    /**
+     * 获取群组信息
+     * @param group_id 群组ID
+     * @return 群组对象
+     */
+    Group getGroupById(UUID group_id) throws Exception;
+
+    /**
+     * 获取群组成员列表
+     * @param group_id 群组ID
+     * @return 成员ID列表
+     */
+    List<GroupMember> getGroupMembers(UUID group_id) throws Exception;
 }
