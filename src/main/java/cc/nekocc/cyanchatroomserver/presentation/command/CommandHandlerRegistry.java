@@ -57,6 +57,9 @@ public final class CommandHandlerRegistry
         handler_map_.put(MessageType.REMOVE_MEMBER_REQUEST, new RemoveMemberCommandHandler());
         handler_map_.put(MessageType.SET_MEMBER_ROLE_REQUEST, new SetMemberRoleCommandHandler());
         handler_map_.put(MessageType.CHANGE_GROUP_JOIN_MODE_REQUEST, new ChangeGroupJoinModeCommandHandler());
+        handler_map_.put(MessageType.GET_GROUP_IDS_BY_USERID_REQUESTS, new GetGroupIdsByUserIdCommandHandler());
+        handler_map_.put(MessageType.GET_GROUP_BY_ID_REQUEST, new GetGroupByIdCommandHandler());
+        handler_map_.put(MessageType.GET_GROUP_MEMBERS_REQUEST, new GetGroupMembersCommandHandler());
 
         // Friendship
         handler_map_.put(MessageType.ACCEPT_FRIENDSHIP_REQUEST, new AcceptFriendshipCommandHandler());
