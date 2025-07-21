@@ -1,7 +1,9 @@
 package cc.nekocc.cyanchatroomserver.presentation.dto.request.group;
 
+import java.util.UUID;
+
 public record GetGroupIdsByUserIdRequest(
-    String client_request_id,
-    String user_id
+    UUID client_request_id,
+    UUID user_id
 )
 {  }

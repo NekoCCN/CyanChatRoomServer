@@ -34,6 +34,9 @@ public final class MessageType
 
     public static final String REQUEST_FILE_UPLOAD = "REQUEST_FILE_UPLOAD";
 
+    public static final String GET_GROUP_IDS_BY_USERID_REQUESTS = "GET_GROUP_IDS_BY_USERID_REQUESTS";
+    public static final String GET_GROUP_IDS_BY_USERID_RESPONSE = "GET_GROUP_IDS_BY_USERID_RESPONSE";
+
     public static final String PUBLISH_KEYS_REQUEST = "PUBLISH_KEYS_REQUEST";
     public static final String FETCH_KEYS_REQUEST = "FETCH_KEYS_REQUEST";
 
