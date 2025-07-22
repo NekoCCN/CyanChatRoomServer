@@ -5,7 +5,7 @@
         <id property="id_" column="id" javaType="java.util.UUID"/>
         <result property="name_" column="name"/>
         <result property="creator_id_" column="creator_id" javaType="java.util.UUID"/>
-        <result property="join_mode_" column="join_mode" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="join_mode_" column="join_mode"/>
         <result property="created_at_" column="created_at"/>
     </resultMap>
 
