@@ -4,6 +4,8 @@
 
 一个基于 Java + Netty 的实时聊天服务器，支持 WebSocket 通信、群组聊天、文件传输等功能。
 
+一个配套的服务端：https://github.com/NekoCCN/CyanChatRoomClient
+
 ## 简介
 
 一个完整的实时聊天服务器实现，包括用户系统、好友关系、群组管理、离线消息等功能。
@@ -278,3 +280,4 @@ MIT License
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request。
+
