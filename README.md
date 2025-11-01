@@ -3,6 +3,7 @@
 English | [中文](README_CN.md)
 
 A real-time chat server built with Java + Netty, supporting WebSocket communication, group chat, file transfer, and more.
+
 A companion client: https://github.com/NekoCCN/CyanChatRoomClient
 
 ## Overview
@@ -279,4 +280,5 @@ MIT License
 ## Contributing
 
 Issues and Pull Requests are welcome.
+
 
